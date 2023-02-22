@@ -1,0 +1,35 @@
+navbar.menu {
+  top: 0;
+  background-color: #000;
+  position: relative;
+  min-width: 100vw;
+  min-height: 10vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+navbar.menu > div#main-menu-content {
+  width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+navbar.menu a {
+  font-size: 20px;
+  text-decoration: none;
+  padding: 10px 20px;
+  color: #ffce00;
+  transition: 0.3s ease-in-out;
+}
+
+navbar.menu a:visited {
+  color: #ffce00;
+}
+
+navbar.menu a:hover {
+  transform: scale(1.2);
+}

@@ -1,0 +1,53 @@
+form {
+  background-color: darkcyan;
+  border-radius: 10px;
+  padding: 30px 50px;
+  min-width: 370px;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+input,
+select,
+button {
+  width: 200px;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+button {
+  border: none;
+  margin-top: 20px;
+  transition: 0.1s ease-in-out;
+}
+
+button:hover {
+  background-color: #ffce00;
+}
+
+button:active {
+  transition: none;
+  scale: 0.96;
+}
+
+span#login {
+  color: #fff;
+}
+span#login > u:hover {
+  color: darkblue;
+}
+
+*:focus {
+  outline: none;
+}
+
+select,
+option,
+button,
+input,
+input::placeholder {
+  font-family: "Kung-Fu Master";
+}

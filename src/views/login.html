@@ -1,0 +1,20 @@
+<form onsubmit="() => e.preventDefault();login()">
+  <input
+    required
+    type="text"
+    id="nickname"
+    name="nickname"
+    placeholder="Nick"
+  />
+  <input
+    required
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Senha"
+  />
+  <button type="submit" id="submit" onclick="login()">Jogar</button>
+  <span id="login"
+    >Não possui uma conta? <u style="cursor: pointer">Cria a sua aqui.</u>
+  </span>
+</form>

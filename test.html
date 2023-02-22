@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de animação por sprites</title>
+    <meta charset="UTF-8" />
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <script>
+      // Carrega a imagem contendo as poses do sprite
+      var image = new Image();
+      image.src = "./assets/img/sprites_megaman_-running.png";
+      // Cria o objeto Sprite
+      var sprite = {
+        image: image,
+        width: 572,
+        height: 572,
+        currentFrame: 0,
+        totalFrames: 5,
+        frameIndex: 0,
+        update: function () {
+          // Atualiza a pose atual do sprite
+          this.frameIndex++;
+          if (this.frameIndex >= (this.currentFrame + 1) * this.totalFrames) {
+            this.frameIndex = this.currentFrame * this.totalFrames;
+          }
+        },
+        stop: function () {
+          this.frameIndex = 0;
+          this.currentFrame = 0;
+        },
+        draw: function (context, x, y) {
+          // Renderiza a imagem na tela
+          context.drawImage(
+            this.image,
+            this.frameIndex * this.width,
+            this.currentFrame * this.height,
+            this.width,
+            this.height,
+            x,
+            y,
+            this.width,
+            this.height
+          );
+        },
+      };
+
+      // Define a função animate
+      function animate() {
+        // Atualiza a pose atual do sprite
+        sprite.update();
+
+        // Limpa o canvas
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Renderiza o sprite na tela
+        sprite.draw(context, 0, 0);
+      }
+
+      // Inicia a animação
+      let interval = null;
+      const move = function (fn, time) {
+        interval = setInterval(fn, time);
+        clearInterval(interval - 1);
+      };
+      const stopPlayer = function () {
+        clearInterval(interval);
+        // clearInterval(setInterval(() => null, 100) - 1);
+        sprite.stop();
+      };
+      window.onkeyup = function (e) {
+        const movePlayer = {
+          ArrowUp: function () {
+            move(animate, 100);
+          },
+          ArrowDown: function () {
+            move(animate, 100);
+          },
+          ArrowLeft: function () {
+            move(animate, 100);
+          },
+          ArrowRight: function () {
+            move(animate, 100);
+          },
+          " ": function () {
+            stopPlayer();
+          },
+        };
+
+        movePlayer[e.key]();
+      };
+      // setInterval(animate, 100);
+    </script>
+  </body>
+</html>

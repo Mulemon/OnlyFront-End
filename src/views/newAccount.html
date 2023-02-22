@@ -1,0 +1,37 @@
+<form onsubmit="() => e.preventDefault();newPlayer()">
+  <input required type="text" id="name" name="name" placeholder="Nome" />
+  <input
+    required
+    type="text"
+    id="nickname"
+    name="nickname"
+    placeholder="Nick"
+  />
+  <input
+    required
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Senha"
+  />
+  <input required type="e-mail" id="email" name="email" placeholder="E-mail" />
+  <select name="region" id="">
+    <option selected value="Kanto">Kanto</option>
+    <option value="Johto">Johto</option>
+    <option value="Hoenn">Hoenn</option>
+    <option value="Sinnoh">Sinnoh</option>
+    <option value="Unova">Unova</option>
+    <option value="Kalos">Kalos</option>
+    <option value="Sevii Islands">Sevil Islands</option>
+    <option value="Fire Island">Fire Island</option>
+    <option value="Lightning Island">Lightning Island</option>
+    <option value="Ice Island">Ice Island</option>
+    <option value="Shamouti Island">Shamouti Island</option>
+    <option value="Aloha Region">Aloha Region</option>
+    <option value="Galar Region">Galar Region</option>
+  </select>
+  <button type="submit" id="submit" onclick="newPlayer()">Jogar</button>
+  <span id="login"
+    >Já é cadastrado? <u style="cursor: pointer">Entre aqui.</u>
+  </span>
+</form>

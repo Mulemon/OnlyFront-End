@@ -1,0 +1,25 @@
+.borderimg {
+  display: flex;
+  align-items: center;
+  width: 100px;
+}
+
+.game-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 180px 1fr 180px;
+  grid-template-rows: minmax(90%, 1fr);
+}
+
+#gamewindow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: lightgreen;
+  border: var(--default-border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}

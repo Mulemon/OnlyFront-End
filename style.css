@@ -1,0 +1,35 @@
+@import url("src/style/gamewindow.css");
+@import url("src/style/menu.css");
+@import url("src/style/margin.css");
+@import url("src/style/newAccount.css");
+
+:root {
+  --default-border: 4px groove black;
+}
+
+@font-face {
+  font-family: "Kung-Fu Master";
+  src: url("assets/fonts/kung-fu-master/kungfumaster.ttf");
+}
+
+body {
+  font-family: "Kung-Fu Master";
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
