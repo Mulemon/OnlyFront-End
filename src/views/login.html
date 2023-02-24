@@ -1,20 +1,151 @@
-<form onsubmit="() => e.preventDefault();login()">
-  <input
-    required
-    type="text"
-    id="nickname"
-    name="nickname"
-    placeholder="Nick"
-  />
-  <input
-    required
-    type="password"
-    id="password"
-    name="password"
-    placeholder="Senha"
-  />
-  <button type="submit" id="submit" onclick="login()">Jogar</button>
-  <span id="login"
-    >Não possui uma conta? <u style="cursor: pointer">Cria a sua aqui.</u>
-  </span>
-</form>
+<div class="scene">
+  <div id="flip-container-3d">
+    <form id="login-form" onsubmit="() => e.preventDefault();login()">
+      <input
+        required
+        type="text"
+        id="nickname"
+        name="nickname"
+        placeholder="Nick"
+      />
+      <input
+        required
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Senha"
+      />
+      <button type="submit" id="submit" onclick="login()">Jogar</button>
+      <span id="swap-new-account"
+        >Não possui uma conta? <u style="cursor: pointer">Cria a sua aqui.</u>
+      </span>
+    </form>
+    <form id="new-account-form" onsubmit="() => e.preventDefault();newPlayer()">
+      <input required type="text" id="name" name="name" placeholder="Nome" />
+      <input
+        required
+        type="text"
+        id="na-nickname"
+        name="nickname"
+        placeholder="Nick"
+      />
+      <input
+        required
+        type="password"
+        id="na-password"
+        name="password"
+        placeholder="Senha"
+      />
+      <input
+        required
+        type="e-mail"
+        id="na-email"
+        name="email"
+        placeholder="E-mail"
+      />
+      <select name="region" id="">
+        <option selected value="Kanto">Kanto</option>
+        <option value="Johto">Johto</option>
+        <option value="Hoenn">Hoenn</option>
+        <option value="Sinnoh">Sinnoh</option>
+        <option value="Unova">Unova</option>
+        <option value="Kalos">Kalos</option>
+        <option value="Sevii Islands">Sevil Islands</option>
+        <option value="Fire Island">Fire Island</option>
+        <option value="Lightning Island">Lightning Island</option>
+        <option value="Ice Island">Ice Island</option>
+        <option value="Shamouti Island">Shamouti Island</option>
+        <option value="Aloha Region">Aloha Region</option>
+        <option value="Galar Region">Galar Region</option>
+      </select>
+      <button type="submit" id="na-submit" onclick="newPlayer()">Jogar</button>
+      <span id="swap-login"
+        >Já é cadastrado? <u style="cursor: pointer">Entre aqui.</u>
+      </span>
+    </form>
+  </div>
+</div>
+<style>
+  .scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 900px;
+  }
+
+  #flip-container-3d {
+    position: relative;
+    width: 370px;
+    height: 70%;
+    transform-style: preserve-3d;
+    transition: 1s ease-in-out;
+  }
+
+  #flip-container-3d.flip {
+    transform: rotateY(180deg);
+  }
+
+  #new-account-form,
+  #login-form {
+    background-color: darkcyan;
+    border-radius: 10px;
+    padding: 30px 50px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  form#new-account-form {
+    top: 0;
+    left: 0;
+    position: absolute;
+    transform: rotateY(180deg);
+  }
+
+  form#login-form {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    position: absolute;
+    backface-visibility: hidden;
+  }
+
+  form input,
+  form select,
+  form button {
+    width: 200px;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+
+  form button {
+    border: none;
+    margin-top: 20px;
+    transition: 0.1s ease-in-out;
+  }
+
+  form button:hover {
+    background-color: #ffce00;
+  }
+
+  form button:active {
+    transition: none;
+    scale: 0.96;
+  }
+
+  span[id^="swap-"] {
+    color: #fff;
+  }
+  span[id^="swap-"] > u:hover {
+    color: darkblue;
+  }
+
+  *:focus {
+    outline: none;
+  }
+</style>

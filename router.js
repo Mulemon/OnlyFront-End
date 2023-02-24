@@ -1,12 +1,12 @@
 import "./eventHandler.js";
 
-const viewPath = "src/pages";
+const viewPath = "src/views";
 
 const route = (event) => {
   event = event || window.event;
   event.preventDefault();
   event.stopPropagation();
-  // window.history.pushState({}, "", event.target.href);
+  window.history.pushState({}, "", event.target.href);
   handleLocation(event.target.getAttribute("to"));
 };
 

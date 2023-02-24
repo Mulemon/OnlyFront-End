@@ -1,7 +1,6 @@
 @import url("src/style/gamewindow.css");
 @import url("src/style/menu.css");
 @import url("src/style/margin.css");
-@import url("src/style/newAccount.css");
 
 :root {
   --default-border: 4px groove black;
@@ -10,6 +9,14 @@
 @font-face {
   font-family: "Kung-Fu Master";
   src: url("assets/fonts/kung-fu-master/kungfumaster.ttf");
+}
+
+select,
+option,
+button,
+input,
+input::placeholder {
+  font-family: "Kung-Fu Master";
 }
 
 body {
