@@ -3,7 +3,7 @@ const getPlayerData = async function (id) {};
 const player = {
   playerStats: {
     speed: 1,
-    pokeCount: 0,
+    pokemonCount: 0,
   },
   playerSprites: {
     down: {
@@ -18,6 +18,10 @@ const player = {
     right: {
       src: "",
     },
+  },
+  playerPosition: {
+    x: 0,
+    y: 0,
   },
 };
 

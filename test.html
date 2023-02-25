@@ -54,6 +54,25 @@
       };
 
       // Define a função animate
+      const gameMoveDirections = {
+        up() {
+          animate();
+          console.log("i'm going up");
+        },
+        down() {
+          animate();
+          console.log("i'm going down");
+        },
+        left() {
+          animate();
+          console.log("i'm going to left");
+        },
+        right() {
+          animate();
+          console.log("i'm going to right");
+        },
+      };
+
       function animate() {
         // Atualiza a pose atual do sprite
         sprite.update();
@@ -69,35 +88,67 @@
 
       // Inicia a animação
       let interval = null;
+      let moving = false;
       const move = function (fn, time) {
+        if (moving) {
+          return;
+        }
+        moving = true;
         interval = setInterval(fn, time);
         clearInterval(interval - 1);
       };
       const stopPlayer = function () {
+        if (!moving) {
+          return;
+        }
+        const x = 0,
+          y = 0;
+        moving = false;
         clearInterval(interval);
         // clearInterval(setInterval(() => null, 100) - 1);
         sprite.stop();
+        updateServerWithPlayerPosition(x, y);
       };
-      window.onkeyup = function (e) {
+
+      window.onkeydown = function (e) {
+        const { up, down, left, right } = gameMoveDirections;
+
         const movePlayer = {
           ArrowUp: function () {
-            move(animate, 100);
+            move(up, 100);
           },
           ArrowDown: function () {
-            move(animate, 100);
+            move(down, 100);
           },
           ArrowLeft: function () {
-            move(animate, 100);
+            move(left, 100);
           },
           ArrowRight: function () {
-            move(animate, 100);
+            move(right, 100);
           },
           " ": function () {
             stopPlayer();
           },
         };
+        movePlayer[e.key] && movePlayer[e.key]();
+      };
+      window.onkeyup = function (e) {
+        const stop = {
+          ArrowUp: function () {
+            stopPlayer();
+          },
+          ArrowDown: function () {
+            stopPlayer();
+          },
+          ArrowLeft: function () {
+            stopPlayer();
+          },
+          ArrowRight: function () {
+            stopPlayer();
+          },
+        };
 
-        movePlayer[e.key]();
+        stop[e.key] && stop[e.key]();
       };
       // setInterval(animate, 100);
     </script>
