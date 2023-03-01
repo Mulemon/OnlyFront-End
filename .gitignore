@@ -1,3 +1,8 @@
 .vscode
 .env
 router.js
+*/ts
+*/typescript
+*.ts
+tsconfig.json
+router.js

@@ -15,13 +15,20 @@
         name="password"
         placeholder="Senha"
       />
+      <span id="login-status-message-no"></span>
       <button type="submit" id="submit" onclick="login()">Jogar</button>
       <span id="swap-new-account"
         >Não possui uma conta? <u style="cursor: pointer">Cria a sua aqui.</u>
       </span>
     </form>
     <form id="new-account-form" onsubmit="() => e.preventDefault();newPlayer()">
-      <input required type="text" id="name" name="name" placeholder="Nome" />
+      <input
+        required
+        type="text"
+        id="na-user"
+        name="user"
+        placeholder="Usuário"
+      />
       <input
         required
         type="text"
@@ -58,6 +65,7 @@
         <option value="Aloha Region">Aloha Region</option>
         <option value="Galar Region">Galar Region</option>
       </select>
+      <span id="na-status-message-no"></span>
       <button type="submit" id="na-submit" onclick="newPlayer()">Jogar</button>
       <span id="swap-login"
         >Já é cadastrado? <u style="cursor: pointer">Entre aqui.</u>

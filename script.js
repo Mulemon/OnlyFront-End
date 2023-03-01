@@ -1,5 +1,3 @@
-// import { route } from "./router.js";
-
 const gameWindow = document.getElementById("gamewindow");
 
 const homeBtn = document.querySelector("#home");
