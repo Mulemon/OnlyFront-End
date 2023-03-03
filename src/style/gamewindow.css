@@ -16,6 +16,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  justify-self: center;
   position: relative;
   background-color: lightgreen;
   border: var(--default-border);

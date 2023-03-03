@@ -2,13 +2,16 @@ import { GameWindow } from "./GameWindow";
 import { Player } from "./Player";
 import { Sprite } from "./Sprite";
 import { GameMap } from "./GameMap";
+function getTileSetMap(mapId) { }
 function generateGameWindow() {
     const canvas = document.querySelector("canvas#gameWindow");
     const context = canvas.getContext("2d");
     return new GameWindow(canvas.height, canvas.width, context);
 }
-function generateGameMap() {
-    const map = new GameMap("../../assets/img/game/scene/tileset.png");
+function generateGameMap(mapId) {
+    const tileMap = getTileSetMap(mapId);
+    const map = new GameMap();
+    console.log(map.getWidth());
     return map;
 }
 function generateGameSprites() {

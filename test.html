@@ -15,6 +15,108 @@
   <body>
     <canvas id="canvas" width="600" height="600"></canvas>
     <script>
+      class Tileset {
+        image;
+        tileWidth;
+        tileHeight;
+        constructor(image, tileWidth, tileHeight) {
+          this.image = image;
+          this.tileWidth = tileWidth;
+          this.tileHeight = tileHeight;
+        }
+        getTile(index) {
+          const x = (index % this.image.width) * this.tileWidth;
+          console.log(x);
+          const y = Math.floor(index / this.image.width) * this.tileHeight;
+          return { x, y, width: this.tileWidth, height: this.tileHeight };
+        }
+        get _image() {
+          return this.image;
+        }
+      }
+      class TileMap {
+        tileset;
+        map;
+        tileWidth;
+        tileHeight;
+        constructor(tileset, map, tileWidth, tileHeight) {
+          this.tileset = tileset;
+          this.map = map;
+          this.tileWidth = tileWidth;
+          this.tileHeight = tileHeight;
+        }
+        draw(context) {
+          for (let row = 0; row < this.map.length; row++) {
+            for (let col = 0; col < this.map[row].length; col++) {
+              const tileIndex = this.map[row][col][0];
+              const tile = this.tileset.getTile(tileIndex);
+              context.drawImage(
+                this.tileset._image,
+                tile.x,
+                tile.y,
+                tile.width,
+                tile.height,
+                col * this.tileWidth,
+                row * this.tileHeight,
+                this.tileWidth,
+                this.tileHeight
+              );
+            }
+          }
+        }
+      }
+      // Exemplo de uso:
+      const tilesetImage = new Image();
+      tilesetImage.src = "./assets/img/game/scene/tileset.png";
+      tilesetImage.onload = () => {
+        const tileset = new Tileset(tilesetImage, 32, 32);
+        const mapData = [
+          [
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+          ],
+          [
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+          ],
+          [
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+          ],
+          [
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+          ],
+          [
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+            [5, true],
+          ],
+        ];
+        const tileMap = new TileMap(tileset, mapData, 32, 32);
+        const canvas = document.createElement("canvas");
+        canvas.width = 160;
+        canvas.height = 160;
+        document.body.appendChild(canvas);
+        const context = canvas.getContext("2d");
+        tileMap.draw(context);
+      };
+    </script>
+    <script>
       // Carrega a imagem contendo as poses do sprite
       var image = new Image();
       image.src = "./assets/img/sprites_megaman_-running.png";
@@ -35,7 +137,11 @@
         },
         stop: function () {
           this.frameIndex = 0;
-          this.currentFrame = 0;
+          var canvas = document.getElementById("canvas");
+          var context = canvas.getContext("2d");
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          // Renderiza o sprite na tela
+          sprite.draw(context, 0, 0);
         },
         draw: function (context, x, y) {
           // Renderiza a imagem na tela

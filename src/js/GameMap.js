@@ -1,10 +1,11 @@
-class GameMap extends Image {
-    mapWidth;
-    mapHeight;
-    constructor(src) {
-        super();
-        this.mapWidth = this.width / 32;
-        this.mapHeight = this.height / 32;
+class GameMap {
+    width;
+    height;
+    map;
+    constructor(map) {
+        this.width = 40;
+        this.height = 25;
+        this.map = map;
     }
     calculateMapMaxBlockSize(size) {
         return size / 32;
