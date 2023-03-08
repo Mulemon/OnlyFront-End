@@ -1,5 +1,5 @@
 /**
- * @type MapColumnData
+ * @type TilesetDataLayer
  * @description This type fields are used for tileMap definition, which the first array index is
  * the tileset tile index, the second index is to define if the tile is blockable, and the third index is to set
  * if the tile is animated.
@@ -34,15 +34,18 @@ class TileMap {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
     }
-    draw(context, options = {}) {
-        const mapWidth = this.map[0].length * this.tileWidth;
-        const mapHeight = this.map.length * this.tileHeight;
-        for (let row = 0; row < this.map.length; row++) {
-            for (let col = 0; col < this.map[row].length; col++) {
-                const tileIndex = this.map[row][col][0];
-                const tile = this.tileset.getTile(tileIndex);
-                console.log(tile.x, tile.y);
-                context.drawImage(this.tileset._image, tile.x, tile.y, tile.width, tile.height, col * this.tileWidth + options.srcX, row * this.tileHeight + options.srcY, this.tileWidth, this.tileHeight);
+    draw(context, options = { cameraX: 0, cameraY: 0 }) {
+        for (let layer = 0; layer < this.map.length; layer++) {
+            for (let row = 0; row < this.map[layer].length; row++) {
+                for (let col = 0; col < this.map[layer][row].length; col++) {
+                    const tileIndex = this.map[layer][row][col][0];
+                    const tile = this.tileset.getTile(tileIndex);
+                    // console.log(layer, row, col);
+                    if (layer <= 0) {
+                        context.drawImage(this.tileset._image, tile.x, tile.y, tile.width, tile.height, col * this.tileWidth, row * this.tileHeight, this.tileWidth, this.tileHeight);
+                    }
+                    context.drawImage(this.tileset._image, tile.x, tile.y, tile.width, tile.height, col * this.tileWidth - options.cameraX, row * this.tileHeight - options.cameraY, this.tileWidth, this.tileHeight);
+                }
             }
         }
     }

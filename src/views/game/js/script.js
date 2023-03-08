@@ -1,5 +1,7 @@
 import { Tileset, TileMap } from "../../../js/TileSetMap.js";
 import { KeyMap } from "../../../js/KeyMap.js";
+import { gameMap, tileSetImageSrc } from "../js/gameMaps.js";
+import { waterMarginHeight, waterMarginWidth } from "./map1.js";
 const canvas = document.querySelector("canvas#gamewindow");
 const borders = document.querySelectorAll(".borderimg");
 const navbar = document.querySelector("navbar");
@@ -9,18 +11,18 @@ window.onresize = function (e) {
     canvas.width = window.innerWidth - borders[0].clientWidth * 2;
     canvas.height = window.innerHeight - navbar.clientHeight - 20;
 };
-const ctx = canvas.getContext("2d");
-const keyMap = new KeyMap().keys;
-const tilesetImage = new Image();
-tilesetImage.src = "/assets/img/game/scene/tileset.png";
-tilesetImage.onload = () => {
-    setKeyBindingActions();
-    gameLoop();
-};
+let gamePlayStarted = false;
+const mapData = gameMap[0];
 let zoom = 1;
-let size = 32 * zoom;
-let srcX = 0;
-let srcY = 0;
+let size = 64 * zoom;
+const playerStartPoint = {
+    x: 4,
+    y: 4,
+};
+let cameraX = (playerStartPoint.x + waterMarginWidth) * size - canvas.width / 2 + size;
+// let cameraX = (playerStartPoint.x - waterMarginWidth) * size;
+let cameraY = (playerStartPoint.y + waterMarginHeight) * size - canvas.height / 2 + size;
+// let cameraY = (playerStartPoint.y - waterMarginHeight) * size;
 let movingDirection = {
     right: false,
     left: false,
@@ -29,6 +31,7 @@ let movingDirection = {
     zoomIn: false,
     zoomOut: false,
     update() {
+        console.log(this);
         this.zoomIn = false;
         this.zoomOut = false;
         this.right = false;
@@ -37,47 +40,21 @@ let movingDirection = {
         this.down = false;
     },
 };
-const mapData = [
-    [
-        [0, true],
-        [4, true],
-        [0, true],
-        [0, true],
-        [0, true],
-    ],
-    [
-        [0, true],
-        [4, true],
-        [1, true],
-        [1, true],
-        [0, true],
-    ],
-    [
-        [0, true],
-        [1, true],
-        [2, true],
-        [1, true],
-        [0, true],
-    ],
-    [
-        [0, true],
-        [1, true],
-        [1, true],
-        [1, true],
-        [0, true],
-    ],
-    [
-        [0, true],
-        [0, true],
-        [0, true],
-        [0, true],
-        [0, true],
-    ],
-];
+const MIN_ZOOM = 64 / size;
+const MAX_ZOOM = (64 / size) * 2;
+const ctx = canvas.getContext("2d");
+const keyMap = new KeyMap().keys;
+const tilesetImage = new Image();
+tilesetImage.src = tileSetImageSrc;
+tilesetImage.onload = () => {
+    setKeyBindingActions();
+    gameLoop();
+};
 window.addEventListener("keydown", keyDownHandler);
 window.addEventListener("keyup", keyUpHandler);
 function keyDownHandler(e) {
     const key = e.keyCode;
+    keyMap[key] && console.log(keyMap[key].name);
     keyMap[key] && keyMap[key].mapAction();
     render();
 }
@@ -87,43 +64,61 @@ function keyUpHandler(e) {
 }
 function setKeyBindingActions() {
     keyMap[33].mapAction = () => {
-        zoom <= 1.8 && (zoom += 0.2);
+        zoom <= MAX_ZOOM - 0.2 && (zoom += 0.2);
     };
     keyMap[34].mapAction = () => {
-        zoom >= 1.2 && (zoom -= 0.2);
+        zoom >= MIN_ZOOM + 0.2 && (zoom -= 0.2);
     };
     keyMap[37].mapAction = () => {
-        srcX >= 5 && ((srcX -= 5), (movingDirection.left = true));
+        (movingDirection.left = true), cameraX >= 5 * zoom && (cameraX -= 5 * zoom);
     };
     keyMap[38].mapAction = () => {
-        srcY >= 5 && ((srcY -= 5), (movingDirection.up = true));
+        (movingDirection.up = true), cameraY >= 5 * zoom && (cameraY -= 5 * zoom);
     };
     keyMap[39].mapAction = () => {
-        srcX <= canvas.width - 5 - mapData[0].length * size &&
-            ((srcX += 5), (movingDirection.right = true));
+        (movingDirection.right = true),
+            cameraX <= mapData[0][0].length * size - canvas.width - 5 &&
+                (cameraX += 5 * zoom);
     };
     keyMap[40].mapAction = () => {
-        srcY <= canvas.height - 5 - mapData.length * size &&
-            ((srcY += 5), (movingDirection.down = true));
+        (movingDirection.down = true),
+            cameraY <= mapData[0].length * size - canvas.height - 5 * zoom &&
+                (cameraY += 5 * zoom);
     };
 }
 function updateMapZoom(zoom) {
     size = 64 * zoom;
 }
-function renderGameMap() {
+function renderPlayer() {
+    const playerPosition = {
+        x: 0,
+        y: 0,
+    };
+    !gamePlayStarted &&
+        ((playerPosition.x =
+            (playerStartPoint.x + waterMarginWidth) * size - size / 2),
+            (playerPosition.y =
+                (playerStartPoint.y + waterMarginHeight) * size - size / 2));
+    gamePlayStarted &&
+        ((playerPosition.x = (playerPosition.x + cameraX) * size),
+            (playerPosition.y = (playerPosition.y + cameraY) * size));
+    ctx.fillStyle = "#005";
+    ctx.fillRect(playerPosition.x, playerPosition.y, size / 2, size / 2);
+}
+function renderGame() {
     updateMapZoom(zoom);
     const tileset = new Tileset(tilesetImage, 32, 32);
     const tileMap = new TileMap(tileset, mapData, size, size);
-    tileMap.draw(ctx, { srcX, srcY });
+    tileMap.draw(ctx, { cameraX, cameraY });
+    renderPlayer();
 }
 function render() {
+    // console.log("rendering");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    renderGameMap();
+    renderGame();
 }
 function update() { }
 function gameLoop() {
-    requestAnimationFrame(() => {
-        render();
-        gameLoop();
-    });
+    render();
+    requestAnimationFrame(gameLoop);
 }
